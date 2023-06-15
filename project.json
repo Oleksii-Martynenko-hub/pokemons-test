@@ -1,0 +1,78 @@
+{
+  "name": "pokemons-test",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/pokemons-test"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "pokemons-test:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "pokemons-test:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "pokemons-test:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "pokemons-test:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "pokemons-test:build:development"
+        },
+        "production": {
+          "buildTarget": "pokemons-test:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["coverage/pokemons-test"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "coverage/pokemons-test"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./src/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "pokemons-test:build"
+      }
+    }
+  },
+  "tags": []
+}
