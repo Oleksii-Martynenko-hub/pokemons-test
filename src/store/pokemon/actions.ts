@@ -17,27 +17,54 @@ export const getPokemonDataAsync = createAsyncThunk<
   'login/getPokemonDataAsync',
   async (_, { extra: { mainApi }, rejectWithValue }) => {
     try {
-      const response = await mainApi.getData();
+      const response = await mainApi.getPokemonData();
 
       const { results, next, count } = response;
 
       const imageStorageUrl = process.env.REACT_APP_IMAGE_STORAGE_URL;
 
-      const pokemonDataArray = results.map(({ name, url }, i) => ({
-        id: i + 1,
+      const pokemonDataArray = results.map(({ name, url }) => ({
+        id: url.split('/').reverse()[1],
         name,
         url,
-        imageUrl: imageStorageUrl + (i + 1) + '.png',
+        imageUrl: imageStorageUrl + url.split('/').reverse()[1] + '.png',
         details: null,
       }));
 
       const pokemonDataEntries = pokemonDataArray.map(
-        (p) => [p.id, p] as const
+        (p) => [p.name, p] as const
       );
 
       const pokemonData = Object.fromEntries(pokemonDataEntries);
 
       return { pokemonData, nextPartOfDataUrl: next, total: count };
+    } catch (error) {
+      return rejectWithValue(getExceptionPayload(error));
+    }
+  }
+);
+
+export const getPokemonByIdAsync = createAsyncThunk<
+  IPokemon,
+  string | number,
+  ThunkExtra
+>(
+  'login/getPokemonByIdAsync',
+  async (pokemonId, { extra: { mainApi }, rejectWithValue }) => {
+    try {
+      const response = await mainApi.getPokemonById(pokemonId.toString());
+
+      const { id, name, moves, stats, types } = response;
+
+      const pokemonData: IPokemon = {
+        id: id.toString(),
+        name,
+        url: process.env.REACT_APP_API_URL + '/pokemon/' + id,
+        imageUrl: process.env.REACT_APP_IMAGE_STORAGE_URL + id + '.png',
+        details: { moves, stats, types },
+      };
+
+      return pokemonData;
     } catch (error) {
       return rejectWithValue(getExceptionPayload(error));
     }

@@ -4,14 +4,17 @@ import { ErrorObject } from 'src/api/ErrorHandler';
 import { APIStatus, IPokemonDetailsDataResponse } from 'src/api/MainApi';
 
 import { pendingCase, rejectedCase } from 'src/store';
-import { getPokemonDataAsync } from 'src/store/pokemon/actions';
+import {
+  getPokemonByIdAsync,
+  getPokemonDataAsync,
+} from 'src/store/pokemon/actions';
 
 export interface IPokemon {
-  id: number;
+  id: string;
   name: string;
   url: string;
   imageUrl: string;
-  details: IPokemonDetailsDataResponse | null;
+  details: Omit<IPokemonDetailsDataResponse, 'id' | 'name'> | null;
 }
 
 export interface PokemonState {
@@ -19,6 +22,7 @@ export interface PokemonState {
   nextPartOfDataUrl: string | null;
   total: number;
   status: APIStatus;
+  statusPokemonDetails: APIStatus;
   errors: ErrorObject[];
 }
 
@@ -27,6 +31,7 @@ const initialState: PokemonState = {
   nextPartOfDataUrl: null,
   total: 0,
   status: APIStatus.IDLE,
+  statusPokemonDetails: APIStatus.IDLE,
   errors: [],
 };
 
@@ -47,6 +52,28 @@ export const pokemonSlice = createSlice({
       state.total = payload.total;
 
       state.status = APIStatus.FULFILLED;
+    });
+
+    builder.addCase(getPokemonByIdAsync.pending, (state) => {
+      state.statusPokemonDetails = APIStatus.PENDING;
+    });
+    builder.addCase(getPokemonByIdAsync.rejected, (state) => {
+      state.statusPokemonDetails = APIStatus.REJECTED;
+    });
+    builder.addCase(getPokemonByIdAsync.fulfilled, (state, { payload }) => {
+      if (!state.pokemonData) {
+        state.pokemonData = {
+          [payload.name]: payload,
+        };
+        state.total = 1;
+        return;
+      }
+
+      if (!state.pokemonData[payload.name]) {
+        state.pokemonData[payload.name] = payload;
+      }
+
+      state.statusPokemonDetails = APIStatus.FULFILLED;
     });
   },
 });
