@@ -37,6 +37,7 @@ export interface IPokemonType {
 
 export interface IPokemonDetailsDataResponse {
   id: number;
+  name: string;
   moves: IPokemonMoves[];
   stats: IPokemonStats[];
   types: IPokemonType[];
@@ -69,7 +70,13 @@ class MainApi extends HttpClient {
     return this.classInstance;
   }
 
-  public getData = () => this.instance.get<IPokemonDataResponse>(`/pokemon`);
+  public getPokemonData = (offset = 0, limit = 20) =>
+    this.instance.get<IPokemonDataResponse>(
+      `/pokemon?offset=${offset}&limit=${limit}`
+    );
+
+  public getPokemonById = (id: string) =>
+    this.instance.get<IPokemonDetailsDataResponse>(`/pokemon/${id}`);
 }
 
 export default MainApi;
