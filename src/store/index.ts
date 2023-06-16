@@ -6,7 +6,7 @@ import logger from 'redux-logger';
 import MainApi, { APIStatus } from 'src/api/MainApi';
 import { ErrorObject } from 'src/api/ErrorHandler';
 
-import dataReducer, { DataState } from 'src/store/data/reducers';
+import pokemonReducer, { PokemonState } from 'src/store/pokemon/reducers';
 
 const { createReduxHistory, routerMiddleware, routerReducer } =
   createReduxHistoryContext({
@@ -50,7 +50,7 @@ export const rejectedCase =
 export const store = configureStore({
   reducer: {
     router: routerReducer,
-    dataReducer,
+    pokemonReducer,
   },
   middleware: (gDM) =>
     gDM({
@@ -65,6 +65,6 @@ export const store = configureStore({
 
 export const history = createReduxHistory(store);
 
-export type CommonState = DataState;
+export type CommonState = PokemonState;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

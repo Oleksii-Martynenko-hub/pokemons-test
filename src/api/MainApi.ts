@@ -11,12 +11,47 @@ export enum APIStatus {
   REJECTED = 'REJECTED',
 }
 
-export interface Data {
-  id: string;
+export interface IPokemonMoves {
+  move: {
+    name: string;
+    url: string;
+  };
 }
 
-export interface DataResponse {
-  data: string[];
+export interface IPokemonStats {
+  base_stat: number;
+  effort: number;
+  stat: {
+    name: string;
+    url: string;
+  };
+}
+
+export interface IPokemonType {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  };
+}
+
+export interface IPokemonDetailsDataResponse {
+  id: number;
+  moves: IPokemonMoves[];
+  stats: IPokemonStats[];
+  types: IPokemonType[];
+}
+
+export interface IPokemonData {
+  name: string;
+  url: string;
+}
+
+export interface IPokemonDataResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: IPokemonData[];
 }
 
 class MainApi extends HttpClient {
@@ -34,8 +69,7 @@ class MainApi extends HttpClient {
     return this.classInstance;
   }
 
-  public getData = (data: Data) =>
-    this.instance.get<DataResponse>(`/data/${data.id}`);
+  public getData = () => this.instance.get<IPokemonDataResponse>(`/pokemon`);
 }
 
 export default MainApi;
