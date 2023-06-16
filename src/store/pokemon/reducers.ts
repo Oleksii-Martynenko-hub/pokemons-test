@@ -15,7 +15,7 @@ export interface IPokemon {
 }
 
 export interface PokemonState {
-  pokemonData: IPokemon[] | null;
+  pokemonData: { [key in string]: IPokemon } | null;
   nextPartOfDataUrl: string | null;
   total: number;
   status: APIStatus;
