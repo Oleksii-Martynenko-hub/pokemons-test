@@ -9,6 +9,7 @@ import { getPokemonDataAsync } from 'src/store/pokemon/actions';
 import { selectPokemonData, selectStatus } from 'src/store/pokemon/selectors';
 
 import { FullPageLoader } from 'src/components/common/FullPageLoader';
+import { Link } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface HomePageProps {}
@@ -39,8 +40,10 @@ export function HomePage(props: HomePageProps) {
         <li>
           {pokemonData.map(({ id, name, imageUrl }) => (
             <li key={id}>
-              <img src={imageUrl} alt={name} />
-              <span>{name}</span>
+              <Link to={`/pokemon/${id}`}>
+                <img src={imageUrl} alt={name} />
+                <span>{name}</span>
+              </Link>
               <hr />
             </li>
           ))}
