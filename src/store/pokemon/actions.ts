@@ -23,10 +23,10 @@ export const getPokemonDataAsync = createAsyncThunk<
       const imageStorageUrl = process.env.REACT_APP_IMAGE_STORAGE_URL;
 
       const pokemonData = results.map(({ name, url }) => ({
-        id: url.split('/').reverse()[1],
+        id: url.split('/').at(-2) as string,
         name,
         url,
-        imageUrl: imageStorageUrl + url.split('/').reverse()[1] + '.png',
+        imageUrl: imageStorageUrl + url.split('/').at(-2) + '.png',
         details: null,
       }));
 

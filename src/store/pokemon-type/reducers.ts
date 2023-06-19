@@ -13,15 +13,11 @@ export interface IPokemonType {
 }
 
 export interface PokemonTypeState {
-  total: number;
-
   status: APIStatus;
   errors: ErrorObject[];
 }
 
 const initialState: PokemonTypeState = {
-  total: 0,
-
   status: APIStatus.IDLE,
   errors: [],
 };
@@ -42,6 +38,7 @@ export const pokemonTypeSlice = createSlice({
     builder.addCase(getPokemonTypesAsync.pending, pendingCase());
     builder.addCase(getPokemonTypesAsync.rejected, rejectedCase());
     builder.addCase(getPokemonTypesAsync.fulfilled, (state, { payload }) => {
+      pokemonTypeAdapter.addMany(state, payload);
       state.status = APIStatus.FULFILLED;
     });
   },
