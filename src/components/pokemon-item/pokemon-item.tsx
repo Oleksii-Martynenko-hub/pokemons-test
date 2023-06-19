@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ERoutes } from 'src/app/app';
 import styled from 'styled-components';
 
-/* eslint-disable-next-line */
+
 export interface PokemonItemProps {
   name: string;
   imageUrl: string;

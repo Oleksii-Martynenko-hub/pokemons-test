@@ -61,6 +61,9 @@ export interface IPokemonDataResponse {
   results: IPokemonData[];
 }
 
+/* eslint-disable-next-line */
+export interface IPokemonTypeDataResponse extends IPokemonDataResponse {}
+
 class MainApi extends HttpClient {
   private static classInstance?: MainApi;
 
@@ -83,6 +86,12 @@ class MainApi extends HttpClient {
 
   public getPokemonById = (id: string) =>
     this.instance.get<IPokemonDetailsDataResponse>(`/pokemon/${id}`);
+
+  public getPokemonTypes = () =>
+    this.instance.get<IPokemonTypeDataResponse>(`/type`);
+
+  public getPokemonTypeById = (id: string) =>
+    this.instance.get<IPokemonTypeDetailsDataResponse>(`/type/${id}`);
 }
 
 export default MainApi;
