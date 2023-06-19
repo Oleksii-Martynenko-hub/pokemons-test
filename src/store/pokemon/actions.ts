@@ -36,30 +36,3 @@ export const getPokemonDataAsync = createAsyncThunk<
     }
   }
 );
-
-export const getPokemonByNameAsync = createAsyncThunk<
-  IPokemon,
-  string | number,
-  ThunkExtra
->(
-  'pokemon/getPokemonByNameAsync',
-  async (pokemonName, { extra: { mainApi }, rejectWithValue }) => {
-    try {
-      const response = await mainApi.getPokemonById(pokemonName.toString());
-
-      const { id, name, moves, stats, types } = response;
-
-      const pokemonData: IPokemon = {
-        id: id.toString(),
-        name,
-        url: process.env.REACT_APP_API_URL + '/pokemon/' + id,
-        imageUrl: process.env.REACT_APP_IMAGE_STORAGE_URL + id + '.png',
-        details: { moves, stats, types },
-      };
-
-      return pokemonData;
-    } catch (error) {
-      return rejectWithValue(getExceptionPayload(error));
-    }
-  }
-);

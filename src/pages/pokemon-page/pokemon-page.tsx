@@ -8,11 +8,11 @@ import { APIStatus } from 'src/api/MainApi';
 
 import { ERoutes } from 'src/app/app';
 import { AppDispatch } from 'src/store';
-import { getPokemonByNameAsync } from 'src/store/pokemon/actions';
+import { getPokemonByNameAsync } from 'src/store/pokemon-details/actions';
 import {
   selectPokemonByName,
-  selectStatusPokemonDetails,
-} from 'src/store/pokemon/selectors';
+  selectPokemonDetailsStatus,
+} from 'src/store/pokemon-details/selectors';
 
 import { FullPageLoader } from 'src/components/common/FullPageLoader';
 
@@ -29,7 +29,7 @@ export function PokemonPage(props: PokemonPageProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const pokemon = useSelector(selectPokemonByName(pokemonName));
-  const status = useSelector(selectStatusPokemonDetails);
+  const status = useSelector(selectPokemonDetailsStatus);
 
   useEffect(() => {
     if ((!pokemon || !pokemon.details) && status !== APIStatus.PENDING) {

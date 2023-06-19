@@ -10,13 +10,15 @@ const selectPokemonReducer = (state: RootState) => state.pokemonReducer;
 
 const selectPokemon = pokemonAdapter.getSelectors();
 
-export const selectPokemonData: Selector<RootState, IPokemon[]> =
+export const selectPokemonByName: (
+  name: string
+) => Selector<RootState, IPokemon | undefined> = (name) =>
   createSelector(selectPokemonReducer, (state) =>
-    selectPokemon.selectAll(state)
+    selectPokemon.selectById(state, name)
   );
 
-export const selectPokemonDataStatus: Selector<RootState, APIStatus> =
+export const selectPokemonDetailsStatus: Selector<RootState, APIStatus> =
   createSelector(selectPokemonReducer, ({ status }) => status);
 
-export const selectPokemonDataErrors: Selector<RootState, ErrorObject[]> =
+export const selectPokemonDetailsErrors: Selector<RootState, ErrorObject[]> =
   createSelector(selectPokemonReducer, ({ errors }) => errors);

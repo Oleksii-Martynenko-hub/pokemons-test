@@ -6,7 +6,10 @@ import { APIStatus } from 'src/api/MainApi';
 
 import { AppDispatch } from 'src/store';
 import { getPokemonDataAsync } from 'src/store/pokemon/actions';
-import { selectPokemonData, selectStatus } from 'src/store/pokemon/selectors';
+import {
+  selectPokemonData,
+  selectPokemonDataStatus,
+} from 'src/store/pokemon/selectors';
 
 import { FullPageLoader } from 'src/components/common/FullPageLoader';
 import PokemonList from 'src/components/pokemon-list/pokemon-list';
@@ -21,7 +24,7 @@ const StyledHomePage = styled.div`
 export function HomePage(props: HomePageProps) {
   const dispatch = useDispatch<AppDispatch>();
   const pokemonData = useSelector(selectPokemonData);
-  const status = useSelector(selectStatus);
+  const status = useSelector(selectPokemonDataStatus);
 
   useEffect(() => {
     if (status === APIStatus.IDLE || pokemonData === null) {

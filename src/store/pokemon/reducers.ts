@@ -4,10 +4,7 @@ import { ErrorObject } from 'src/api/ErrorHandler';
 import { APIStatus, IPokemonDetailsDataResponse } from 'src/api/MainApi';
 
 import { pendingCase, rejectedCase } from 'src/store';
-import {
-  getPokemonByNameAsync,
-  getPokemonDataAsync,
-} from 'src/store/pokemon/actions';
+import { getPokemonDataAsync } from 'src/store/pokemon/actions';
 
 export interface IPokemon {
   id: string;
@@ -21,7 +18,6 @@ export interface PokemonState {
   total: number;
 
   status: APIStatus;
-  statusPokemonDetails: APIStatus;
   errors: ErrorObject[];
 }
 
@@ -29,7 +25,6 @@ const initialState: PokemonState = {
   total: 0,
 
   status: APIStatus.IDLE,
-  statusPokemonDetails: APIStatus.IDLE,
   errors: [],
 };
 
@@ -42,10 +37,8 @@ export const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState: pokemonAdapter.getInitialState(initialState),
   reducers: {
-    setPokemonStatus: (state, action: { payload: APIStatus }) => {
-      state.status = action.payload;
-    },
     addPokemonData: pokemonAdapter.addMany,
+    upsertPokemon: pokemonAdapter.upsertOne,
   },
   extraReducers: (builder) => {
     builder.addCase(getPokemonDataAsync.pending, pendingCase());
@@ -57,21 +50,9 @@ export const pokemonSlice = createSlice({
 
       state.status = APIStatus.FULFILLED;
     });
-
-    builder.addCase(getPokemonByNameAsync.pending, (state) => {
-      state.statusPokemonDetails = APIStatus.PENDING;
-    });
-    builder.addCase(getPokemonByNameAsync.rejected, (state) => {
-      state.statusPokemonDetails = APIStatus.REJECTED;
-    });
-    builder.addCase(getPokemonByNameAsync.fulfilled, (state, { payload }) => {
-      pokemonAdapter.upsertOne(state, payload);
-
-      state.statusPokemonDetails = APIStatus.FULFILLED;
-    });
   },
 });
 
-export const { setPokemonStatus, addPokemonData } = pokemonSlice.actions;
+export const { addPokemonData, upsertPokemon } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;
