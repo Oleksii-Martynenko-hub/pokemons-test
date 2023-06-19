@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,9 +8,9 @@ import { APIStatus } from 'src/api/MainApi';
 
 import { ERoutes } from 'src/app/app';
 import { AppDispatch } from 'src/store';
-import { getPokemonByIdAsync } from 'src/store/pokemon/actions';
+import { getPokemonByNameAsync } from 'src/store/pokemon/actions';
 import {
-  selectPokemonByIdOrName,
+  selectPokemonByName,
   selectStatusPokemonDetails,
 } from 'src/store/pokemon/selectors';
 
@@ -24,16 +24,16 @@ const StyledPokemonPage = styled.div`
 `;
 
 export function PokemonPage(props: PokemonPageProps) {
-  const params = useParams<{ id: string }>();
-  const pokemonId = params.id || '-1';
+  const params = useParams();
+  const pokemonName = params.name as string;
   const dispatch = useDispatch<AppDispatch>();
 
-  const pokemon = useSelector(selectPokemonByIdOrName(pokemonId));
+  const pokemon = useSelector(selectPokemonByName(pokemonName));
   const status = useSelector(selectStatusPokemonDetails);
 
   useEffect(() => {
     if ((!pokemon || !pokemon.details) && status !== APIStatus.PENDING) {
-      dispatch(getPokemonByIdAsync(pokemonId));
+      dispatch(getPokemonByNameAsync(pokemonName));
     }
   }, []);
 
@@ -46,9 +46,9 @@ export function PokemonPage(props: PokemonPageProps) {
       <Link to={ERoutes.ROOT}>{'< Back to Home'}</Link>
 
       <p>{pokemon?.name}</p>
-      <img src={pokemon?.imageUrl} alt={pokemon?.name} />
+      <img loading="lazy" src={pokemon?.imageUrl} alt={pokemon?.name} />
     </StyledPokemonPage>
   );
 }
 
-export default PokemonPage;
+export default memo(PokemonPage);

@@ -7,23 +7,22 @@ import { IPokemon } from 'src/store/pokemon/reducers';
 
 export const getPokemonDataAsync = createAsyncThunk<
   {
-    pokemonData: { [key: string]: IPokemon };
-    nextPartOfDataUrl: string | null;
+    pokemonData: IPokemon[];
     total: number;
   },
   void,
   ThunkExtra
 >(
-  'login/getPokemonDataAsync',
+  'pokemon/getPokemonDataAsync',
   async (_, { extra: { mainApi }, rejectWithValue }) => {
     try {
-      const response = await mainApi.getPokemonData();
+      const response = await mainApi.getPokemonData(0, 1281);
 
-      const { results, next, count } = response;
+      const { results, count } = response;
 
       const imageStorageUrl = process.env.REACT_APP_IMAGE_STORAGE_URL;
 
-      const pokemonDataArray = results.map(({ name, url }) => ({
+      const pokemonData = results.map(({ name, url }) => ({
         id: url.split('/').reverse()[1],
         name,
         url,
@@ -31,28 +30,22 @@ export const getPokemonDataAsync = createAsyncThunk<
         details: null,
       }));
 
-      const pokemonDataEntries = pokemonDataArray.map(
-        (p) => [p.name, p] as const
-      );
-
-      const pokemonData = Object.fromEntries(pokemonDataEntries);
-
-      return { pokemonData, nextPartOfDataUrl: next, total: count };
+      return { pokemonData, total: count };
     } catch (error) {
       return rejectWithValue(getExceptionPayload(error));
     }
   }
 );
 
-export const getPokemonByIdAsync = createAsyncThunk<
+export const getPokemonByNameAsync = createAsyncThunk<
   IPokemon,
   string | number,
   ThunkExtra
 >(
-  'login/getPokemonByIdAsync',
-  async (pokemonId, { extra: { mainApi }, rejectWithValue }) => {
+  'pokemon/getPokemonByNameAsync',
+  async (pokemonName, { extra: { mainApi }, rejectWithValue }) => {
     try {
-      const response = await mainApi.getPokemonById(pokemonId.toString());
+      const response = await mainApi.getPokemonById(pokemonName.toString());
 
       const { id, name, moves, stats, types } = response;
 

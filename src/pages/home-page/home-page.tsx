@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { APIStatus } from 'src/api/MainApi';
 
-import { ERoutes } from 'src/app/app';
 import { AppDispatch } from 'src/store';
 import { getPokemonDataAsync } from 'src/store/pokemon/actions';
 import { selectPokemonData, selectStatus } from 'src/store/pokemon/selectors';
 
 import { FullPageLoader } from 'src/components/common/FullPageLoader';
+import PokemonList from 'src/components/pokemon-list/pokemon-list';
 
 /* eslint-disable-next-line */
 export interface HomePageProps {}
@@ -35,23 +34,9 @@ export function HomePage(props: HomePageProps) {
   }
   return (
     <StyledHomePage>
-      <h1>Welcome to HomePage!</h1>
-
-      {pokemonData && (
-        <ul>
-          {pokemonData.map(({ id, name, imageUrl }) => (
-            <li key={id}>
-              <Link to={`${ERoutes.POKEMON.split(':')[0] + name}`}>
-                <img src={imageUrl} alt={name} />
-                <span>{name}</span>
-              </Link>
-              <hr />
-            </li>
-          ))}
-        </ul>
-      )}
+      {pokemonData && <PokemonList pokemons={pokemonData} />}
     </StyledHomePage>
   );
 }
 
-export default HomePage;
+export default memo(HomePage);

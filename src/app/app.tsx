@@ -29,7 +29,7 @@ export const GlobalStyles = createGlobalStyle`
 export enum ERoutes {
   NOT_EXIST = '*',
   ROOT = '/',
-  POKEMON = 'pokemon/:id',
+  POKEMON = 'pokemon/:name',
 }
 
 const containerStyles: SxProps<Theme> = {
