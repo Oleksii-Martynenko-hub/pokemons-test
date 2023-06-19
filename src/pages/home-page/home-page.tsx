@@ -13,6 +13,7 @@ import {
 
 import { FullPageLoader } from 'src/components/common/FullPageLoader';
 import PokemonList from 'src/components/pokemon-list/pokemon-list';
+import PokemonTypesFilter from 'src/components/pokemon-types-filter/pokemon-types-filter';
 
 /* eslint-disable-next-line */
 export interface HomePageProps {}
@@ -37,6 +38,8 @@ export function HomePage(props: HomePageProps) {
   }
   return (
     <StyledHomePage>
+      <PokemonTypesFilter />
+
       {pokemonData && <PokemonList pokemons={pokemonData} />}
     </StyledHomePage>
   );

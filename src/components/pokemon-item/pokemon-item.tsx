@@ -1,9 +1,9 @@
-import { Card, Grid, Tooltip, Typography } from '@mui/material';
 import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ERoutes } from 'src/app/app';
 import styled from 'styled-components';
+import { Card, Grid, Tooltip, Typography } from '@mui/material';
 
+import { ERoutes } from 'src/app/app';
 
 export interface PokemonItemProps {
   name: string;
