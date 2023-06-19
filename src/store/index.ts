@@ -10,6 +10,9 @@ import pokemonReducer, { PokemonState } from 'src/store/pokemon/reducers';
 import pokemonDetailsReducer, {
   PokemonDetailsState,
 } from 'src/store/pokemon-details/reducers';
+import pokemonTypeReducer, {
+  PokemonTypeState,
+} from 'src/store/pokemon-type/reducers';
 
 const { createReduxHistory, routerMiddleware, routerReducer } =
   createReduxHistoryContext({
@@ -55,6 +58,7 @@ export const store = configureStore({
     router: routerReducer,
     pokemonReducer,
     pokemonDetailsReducer,
+    pokemonTypeReducer,
   },
   middleware: (gDM) =>
     gDM({
@@ -69,6 +73,6 @@ export const store = configureStore({
 
 export const history = createReduxHistory(store);
 
-export type CommonState = PokemonState | PokemonDetailsState;
+export type CommonState = PokemonState | PokemonDetailsState | PokemonTypeState;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

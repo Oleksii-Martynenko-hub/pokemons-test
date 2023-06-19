@@ -43,6 +43,12 @@ export interface IPokemonDetailsDataResponse {
   types: IPokemonType[];
 }
 
+export interface IPokemonTypeDetailsDataResponse {
+  id: number;
+  name: string;
+  pokemon: { pokemon: IPokemonData; slot: number }[];
+}
+
 export interface IPokemonData {
   name: string;
   url: string;
