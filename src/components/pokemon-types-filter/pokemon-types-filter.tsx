@@ -34,7 +34,14 @@ export function PokemonTypesFilter(props: PokemonTypesFilterProps) {
       {status === APIStatus.PENDING ? (
         <p>Loading...</p>
       ) : (
-        <Grid container spacing={1} marginBottom={2}>
+        <Grid
+          container
+          spacing={1}
+          marginBottom={{ xs: 2, md: 4 }}
+          justifyContent="center"
+          maxWidth={740}
+          marginX="auto"
+        >
           {typesData?.map(({ id }) => (
             <PokemonTypeItem key={id} id={id} />
           ))}

@@ -25,6 +25,12 @@ export const selectPokemonTypeById: (
     selectPokemonType.selectById(state, id)
   );
 
+export const selectPokemonSelectedTypes: Selector<RootState, string[]> =
+  createSelector(
+    selectPokemonTypeReducer,
+    ({ selectedTypes }) => selectedTypes
+  );
+
 export const selectPokemonTypesStatus: Selector<RootState, APIStatus> =
   createSelector(selectPokemonTypeReducer, ({ status }) => status);
 
