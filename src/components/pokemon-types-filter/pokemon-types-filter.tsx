@@ -1,6 +1,6 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Chip, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
 import { APIStatus } from 'src/api/MainApi';
@@ -11,20 +11,17 @@ import {
   selectPokemonTypesData,
   selectPokemonTypesStatus,
 } from 'src/store/pokemon-type/selectors';
+import PokemonTypeItem from '../pokemon-type-item/pokemon-type-item';
 
 /* eslint-disable-next-line */
 export interface PokemonTypesFilterProps {}
 
-const StyledPokemonTypesFilter = styled.div`
-  color: #5f5fff;
-`;
+const StyledPokemonTypesFilter = styled.div``;
 
 export function PokemonTypesFilter(props: PokemonTypesFilterProps) {
   const dispatch = useDispatch<AppDispatch>();
   const typesData = useSelector(selectPokemonTypesData);
   const status = useSelector(selectPokemonTypesStatus);
-
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
   useEffect(() => {
     if (status === APIStatus.IDLE || typesData === null) {
@@ -32,43 +29,14 @@ export function PokemonTypesFilter(props: PokemonTypesFilterProps) {
     }
   }, []);
 
-  const handleToggleType = (value: string) => () => {
-    if (selectedTypes.includes(value)) {
-      setSelectedTypes((prev) => prev.filter((t) => t !== value));
-      return;
-    }
-
-    setSelectedTypes((prev) => [...prev, value]);
-  };
-
   return (
     <StyledPokemonTypesFilter>
       {status === APIStatus.PENDING ? (
         <p>Loading...</p>
       ) : (
         <Grid container spacing={1} marginBottom={2}>
-          {typesData?.map(({ name }) => (
-            <Grid item xs="auto" key={name}>
-              <Chip
-                label={name}
-                sx={{
-                  backgroundColor: selectedTypes.includes(name)
-                    ? 'rgb(28, 62, 119)'
-                    : 'rgb(55, 97, 168)',
-                  color: 'rgb(252, 202, 28)',
-                  fontWeight: 'bold',
-
-                  '&:hover': {
-                    outline: '2px solid rgb(252, 202, 28)',
-                    backgroundColor: selectedTypes.includes(name)
-                      ? 'rgb(28, 62, 119)'
-                      : 'rgb(55, 97, 168)',
-                  },
-                }}
-                clickable
-                onClick={handleToggleType(name)}
-              />
-            </Grid>
+          {typesData?.map(({ id }) => (
+            <PokemonTypeItem key={id} id={id} />
           ))}
         </Grid>
       )}

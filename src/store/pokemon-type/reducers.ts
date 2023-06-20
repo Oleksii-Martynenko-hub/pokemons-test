@@ -34,7 +34,7 @@ const initialState: PokemonTypeState = {
 };
 
 export const pokemonTypeAdapter = createEntityAdapter<IPokemonType>({
-  selectId: (type) => type.name,
+  selectId: (type) => type.id,
   sortComparer: (a, b) => +a.id - +b.id,
 });
 
@@ -45,9 +45,7 @@ export const pokemonTypeSlice = createSlice({
     togglePokemonType: (state, { payload }: PayloadAction<string>) => {
       const type = pokemonTypeAdapter.getSelectors().selectById(state, payload);
 
-      if (!type) {
-        return;
-      }
+      if (!type) return;
 
       pokemonTypeAdapter.updateOne(state, {
         changes: { isSelected: !type.isSelected },
