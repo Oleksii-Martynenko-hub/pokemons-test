@@ -37,7 +37,6 @@ export const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState: pokemonAdapter.getInitialState(initialState),
   reducers: {
-    addPokemonData: pokemonAdapter.addMany,
     upsertPokemon: pokemonAdapter.upsertOne,
   },
   extraReducers: (builder) => {
@@ -53,6 +52,6 @@ export const pokemonSlice = createSlice({
   },
 });
 
-export const { addPokemonData, upsertPokemon } = pokemonSlice.actions;
+export const { upsertPokemon } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;
