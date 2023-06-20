@@ -27,7 +27,7 @@ export interface IPokemonStats {
   };
 }
 
-export interface IPokemonType {
+export interface IPokemonTypeData {
   slot: number;
   type: {
     name: string;
@@ -40,7 +40,7 @@ export interface IPokemonDetailsDataResponse {
   name: string;
   moves: IPokemonMoves[];
   stats: IPokemonStats[];
-  types: IPokemonType[];
+  types: IPokemonTypeData[];
 }
 
 export interface IPokemonTypeDetailsDataResponse {

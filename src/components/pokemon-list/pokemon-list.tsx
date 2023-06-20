@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { Grid } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 
 import { IPokemon } from 'src/store/pokemon/reducers';
 import {
@@ -8,8 +8,10 @@ import {
   selectPokemonTypesData,
 } from 'src/store/pokemon-type/selectors';
 
-import { useFilterByTypes } from '../hooks/use-filter-by-types';
-import PokemonItem from '../pokemon-item/pokemon-item';
+import usePagination from 'src/components/hooks/use-pagination';
+import { useFilterByTypes } from 'src/components/hooks/use-filter-by-types';
+import Pagination from 'src/components/pagination/pagination';
+import PokemonItem from 'src/components/pokemon-item/pokemon-item';
 
 export interface PokemonListProps {
   pokemons: IPokemon[];
@@ -25,12 +27,28 @@ export function PokemonList({ pokemons }: PokemonListProps) {
     selectedTypes
   );
 
+  const { dataSlice: pokemonSlice, ...paginationProps } = usePagination(
+    filteredPokemonsByTypes
+  );
+
   return (
-    <Grid container spacing={2} justifyContent="center">
-      {filteredPokemonsByTypes.map(({ id, name, imageUrl }) => (
-        <PokemonItem key={id} name={name} imageUrl={imageUrl} />
-      ))}
-    </Grid>
+    <>
+      <Divider sx={{ mx: 2 }} />
+
+      <Pagination {...paginationProps} />
+
+      <Grid container spacing={2} justifyContent="center">
+        {filteredPokemonsByTypes.length === 0 ? (
+          <Typography>Pokemons not found</Typography>
+        ) : (
+          pokemonSlice.map(({ id, name, imageUrl }) => (
+            <PokemonItem key={id} name={name} imageUrl={imageUrl} />
+          ))
+        )}
+      </Grid>
+
+      <Pagination {...paginationProps} />
+    </>
   );
 }
 
