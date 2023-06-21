@@ -15,15 +15,12 @@ import {
 } from 'src/store/pokemon-details/selectors';
 import { typeColorMap } from 'src/store/pokemon-type/reducers';
 
-import { FullPageLoader } from 'src/components/common/FullPageLoader';
+import { FullPageLoader } from 'src/components/common/full-page-loader';
 import PokemonStats from 'src/components/pokemon-stats/pokemon-stats';
 
 import styles from './pokemon-page.module.scss';
 
-/* eslint-disable-next-line */
-export interface PokemonPageProps {}
-
-export function PokemonPage(props: PokemonPageProps) {
+export function PokemonPage() {
   const params = useParams();
   const pokemonName = params.name as string;
   const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +45,7 @@ export function PokemonPage(props: PokemonPageProps) {
   return status === APIStatus.PENDING ? (
     <FullPageLoader />
   ) : (
-    <div className={styles.pageContainer}>
+    <>
       <header className={styles.header}>
         <Link to={ERoutes.ROOT} className={styles.backLink}>
           <span>{'<'}</span> Back
@@ -96,7 +93,7 @@ export function PokemonPage(props: PokemonPageProps) {
           ))}
         </Grid>
       </Grid>
-    </div>
+    </>
   );
 }
 
