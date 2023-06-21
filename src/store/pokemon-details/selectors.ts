@@ -7,6 +7,8 @@ import { RootState } from 'src/store';
 import { IPokemon, pokemonAdapter } from 'src/store/pokemon/reducers';
 
 const selectPokemonReducer = (state: RootState) => state.pokemonReducer;
+const selectPokemonDetailsReducer = (state: RootState) =>
+  state.pokemonDetailsReducer;
 
 const selectPokemon = pokemonAdapter.getSelectors();
 
@@ -18,7 +20,7 @@ export const selectPokemonByName: (
   );
 
 export const selectPokemonDetailsStatus: Selector<RootState, APIStatus> =
-  createSelector(selectPokemonReducer, ({ status }) => status);
+  createSelector(selectPokemonDetailsReducer, ({ status }) => status);
 
 export const selectPokemonDetailsErrors: Selector<RootState, ErrorObject[]> =
-  createSelector(selectPokemonReducer, ({ errors }) => errors);
+  createSelector(selectPokemonDetailsReducer, ({ errors }) => errors);
