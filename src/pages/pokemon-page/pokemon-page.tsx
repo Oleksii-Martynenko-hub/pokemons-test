@@ -2,8 +2,7 @@ import { memo, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Chip, Grid, Typography } from '@mui/material';
-import styled from 'styled-components';
+import { Chip, Grid, Typography } from '@mui/material';
 
 import { APIStatus } from 'src/api/MainApi';
 
@@ -17,31 +16,12 @@ import {
 import { typeColorMap } from 'src/store/pokemon-type/reducers';
 
 import { FullPageLoader } from 'src/components/common/FullPageLoader';
+import PokemonStats from 'src/components/pokemon-stats/pokemon-stats';
+
+import styles from './pokemon-page.module.scss';
 
 /* eslint-disable-next-line */
 export interface PokemonPageProps {}
-
-const StyledLink = styled(Link)`
-  display: block;
-  color: #242c4c;
-  text-decoration: none;
-  font-size: 20px;
-  padding: 10px;
-  border-radius: 4px;
-
-  &:hover {
-    background: #eee;
-  }
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: auto;
-
-  @media (min-width: 600px) {
-    width: 280px;
-  }
-`;
 
 export function PokemonPage(props: PokemonPageProps) {
   const params = useParams();
@@ -68,55 +48,40 @@ export function PokemonPage(props: PokemonPageProps) {
   return status === APIStatus.PENDING ? (
     <FullPageLoader />
   ) : (
-    <Grid container spacing={2} justifyContent="space-between">
-      <Grid item xs="auto">
-        <StyledLink to={ERoutes.ROOT}>{'< Back'}</StyledLink>
-      </Grid>
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <Link to={ERoutes.ROOT} className={styles.backLink}>
+          <span>{'<'}</span> Back
+        </Link>
+      </header>
 
-      <Grid item xs={9}>
-        <Typography variant="h3" textTransform="capitalize" align="right">
-          {name}
-        </Typography>
-      </Grid>
+      <main>
+        <div className={styles.mainInfo}>
+          <h2 className={styles.title}>{name}</h2>
+          <p className={styles.idNumber}>#{id}</p>
+          <ul className={styles.typesList}>
+            {types?.map(({ type }) => (
+              <li
+                key={type.name}
+                className={styles.typeItem}
+                style={{ backgroundColor: typeColorMap[type.name] }}
+              >
+                <span>{type.name}</span>
+              </li>
+            ))}
+          </ul>{' '}
+          <div className={styles.imageWrapper}>
+            <img
+              className={styles.image}
+              src={imageUrl}
+              alt={name}
+              loading="lazy"
+            />
+          </div>
+        </div>
 
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={6} sm="auto">
-            <Image loading="lazy" src={imageUrl} alt={name} />
-          </Grid>
-          <Grid item xs={6} sm="auto">
-            <Typography variant="h5" marginBottom={2}>
-              #{id}
-            </Typography>
-
-            <Box component="ul">
-              {types?.map(({ type }) => (
-                <Chip
-                  key={type.name}
-                  label={type.name}
-                  component="li"
-                  sx={{
-                    background: typeColorMap[type.name],
-                    color: '#fff',
-                    mr: 1,
-                  }}
-                />
-              ))}
-            </Box>
-
-            <Box component="ul">
-              {stats?.map(({ stat, base_stat, effort }) => (
-                <li key={stat.name}>
-                  <span>{stat.name}: </span>
-                  <span>
-                    {base_stat} / {effort}
-                  </span>
-                </li>
-              ))}
-            </Box>
-          </Grid>
-        </Grid>
-      </Grid>
+        {stats && <PokemonStats stats={stats} />}
+      </main>
 
       <Grid item xs={12}>
         <Typography variant="h5" marginBottom={2}>
@@ -131,7 +96,7 @@ export function PokemonPage(props: PokemonPageProps) {
           ))}
         </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 

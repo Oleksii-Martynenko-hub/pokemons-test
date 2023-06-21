@@ -1,0 +1,98 @@
+.pageContainer {
+  .header {
+    margin: 0 0 16px 0;
+
+    .backLink {
+      display: inline-block;
+      color: #242c4c;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 5px 16px;
+      border-radius: 4px;
+
+      &:hover {
+        background: #eee;
+      }
+
+      span {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .mainInfo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+
+    .title {
+      flex: 0 0 100%;
+      font-size: 36px;
+      line-height: 40px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-align: center;
+      text-transform: capitalize;
+      text-shadow: 
+        2px 0 #3761a8,
+        2px 2px #3761a8,
+        0 2px #3761a8,
+        -2px 2px #3761a8,
+        -2px 0 #3761a8,
+        -2px -2px #3761a8,
+        0 -2px #3761a8,
+        2px -2px #3761a8,
+
+        3px 0 #23201f,
+        3px 3px #23201f,
+        0 3px #23201f,
+        -3px 3px #23201f,
+        -3px 0 #23201f,
+        -3px -3px #23201f,
+        0 -3px #23201f,
+        3px -3px #23201f;
+      color: rgb(252, 202, 28);
+      margin: 0 0 20px 0;
+    }
+
+    .idNumber {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 16px 0 0;
+    }
+
+    .typesList {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      .typeItem {
+        padding: 0px 16px;
+        border-radius: 38px;
+
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+        
+        span {
+          line-height: 38px;
+          font-weight: 600;
+          color: #fff;
+          text-transform: capitalize;
+        }
+      }
+    }
+
+    .imageWrapper {
+      flex: 0 0 100%;
+      text-align: center;
+
+      .image {
+        width: 280px;
+      }
+    }
+  }
+}
