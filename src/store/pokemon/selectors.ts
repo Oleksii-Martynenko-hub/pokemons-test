@@ -15,6 +15,14 @@ export const selectPokemonData: Selector<RootState, IPokemon[]> =
     selectPokemon.selectAll(state)
   );
 
+export const selectPokemonPage: Selector<RootState, number> = createSelector(
+  selectPokemonReducer,
+  ({ page }) => page
+);
+
+export const selectPokemonItemsPerPage: Selector<RootState, number> =
+  createSelector(selectPokemonReducer, ({ itemsPerPage }) => itemsPerPage);
+
 export const selectPokemonDataStatus: Selector<RootState, APIStatus> =
   createSelector(selectPokemonReducer, ({ status }) => status);
 

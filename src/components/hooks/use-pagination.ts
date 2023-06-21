@@ -3,6 +3,8 @@ import { useMediaQuery } from '@mui/material';
 
 export default function usePagination<T>(
   data: T[],
+  defaultPage = 1,
+  defaultItemsPerPage = 0,
   itemsPerPageOptions = [10, 25, 50]
 ) {
   const isMobile = useMediaQuery('(max-width:460px)');
@@ -11,8 +13,10 @@ export default function usePagination<T>(
   const itemsPerPageDefault =
     itemsPerPageOptions[isMobile ? 0 : isTablet ? 1 : 2];
 
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageDefault);
+  const [page, setPage] = useState(defaultPage);
+  const [itemsPerPage, setItemsPerPage] = useState(
+    defaultItemsPerPage || itemsPerPageDefault
+  );
 
   const totalPages = useMemo(() => {
     return Math.ceil(data.length / itemsPerPage);

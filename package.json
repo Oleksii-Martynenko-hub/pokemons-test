@@ -26,8 +26,7 @@
     "react-router-dom": "^6.13.0",
     "redux-first-history": "^5.1.1",
     "redux-logger": "^3.0.6",
-    "reselect": "^4.1.8",
-    "styled-components": "5.3.6"
+    "reselect": "^4.1.8"
   },
   "devDependencies": {
     "@nx/cypress": "16.3.2",
@@ -45,13 +44,11 @@
     "@types/react-dom": "18.0.11",
     "@types/react-is": "17.0.3",
     "@types/redux-logger": "^3.0.9",
-    "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
     "@vitejs/plugin-react": "^3.0.0",
     "@vitest/coverage-c8": "^0.31.0",
     "@vitest/ui": "^0.31.0",
-    "babel-plugin-styled-components": "1.10.7",
     "cypress": "^12.11.0",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
@@ -64,6 +61,7 @@
     "nx": "16.3.2",
     "nx-cloud": "latest",
     "prettier": "^2.6.2",
+    "sass": "^1.63.5",
     "typescript": "~5.0.2",
     "vite": "^4.3.4",
     "vite-plugin-eslint": "^1.8.1",

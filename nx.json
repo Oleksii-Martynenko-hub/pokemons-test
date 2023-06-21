@@ -5,31 +5,20 @@
       "runner": "nx-cloud",
       "options": {
         "cacheableOperations": ["build", "lint", "test"],
-        "accessToken": "OTM1MzFkMjMtZTYyZC00Zjc2LWE1ZDMtOWM5ZmQyYjI2NTExfHJlYWQtd3JpdGU="
+        "accessToken": "Y2ZmMzZjNTUtZmRjOS00MGU2LTllYmQtNzM4NGEwY2FlNmJkfHJlYWQtd3JpdGU="
       }
     }
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     },
     "e2e": {
-      "inputs": [
-        "default",
-        "^production"
-      ]
+      "inputs": ["default", "^production"]
     },
     "test": {
-      "inputs": [
-        "default",
-        "^production"
-      ]
+      "inputs": ["default", "^production"]
     },
     "lint": {
       "inputs": [
@@ -40,10 +29,7 @@
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -55,16 +41,16 @@
   "generators": {
     "@nx/react": {
       "application": {
-        "style": "styled-components",
+        "style": "scss",
         "linter": "eslint",
         "bundler": "vite",
         "babel": true
       },
       "component": {
-        "style": "styled-components"
+        "style": "scss"
       },
       "library": {
-        "style": "styled-components",
+        "style": "scss",
         "linter": "eslint"
       }
     }

@@ -1,35 +1,16 @@
 import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { Card, Grid, Tooltip, Typography } from '@mui/material';
 
 import { ERoutes } from 'src/app/app';
 import pokemonPlaceholder from 'src/assets/images/pokemon-placeholder.svg';
 
-
+import styles from './pokemon-item.module.scss';
 
 export interface PokemonItemProps {
   name: string;
   imageUrl: string;
 }
-
-const StyledLink = styled(Link)`
-  width: 96px;
-  display: inline-block;
-  color: inherit;
-  text-decoration: none;
-`;
-const ImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 96px;
-  height: 96px;
-`;
-
-const CardImage = styled.img`
-  width: 96px;
-  aspect-ratio: 1;
-`;
 
 export function PokemonItem({ name, imageUrl }: PokemonItemProps) {
   const [isImageRejected, setIsImageRejected] = useState(false);
@@ -38,10 +19,14 @@ export function PokemonItem({ name, imageUrl }: PokemonItemProps) {
 
   return (
     <Grid item xs={'auto'}>
-      <StyledLink to={`${ERoutes.POKEMON.split(':')[0] + name}`}>
+      <Link
+        to={`${ERoutes.POKEMON.split(':')[0] + name}`}
+        className={styles.link}
+      >
         <Card sx={{ width: '100%' }}>
-          <ImageWrapper>
-            <CardImage
+          <div className={styles.imageWrapper}>
+            <img
+              className={styles.cardImage}
               src={isImageRejected ? pokemonPlaceholder : imageUrl}
               alt={name}
               width={isImageRejected ? 40 : 96}
@@ -49,7 +34,7 @@ export function PokemonItem({ name, imageUrl }: PokemonItemProps) {
               onError={handleImageError}
               loading="lazy"
             />
-          </ImageWrapper>
+          </div>
           <Tooltip
             title={name}
             followCursor
@@ -75,7 +60,7 @@ export function PokemonItem({ name, imageUrl }: PokemonItemProps) {
             </Typography>
           </Tooltip>
         </Card>
-      </StyledLink>
+      </Link>
     </Grid>
   );
 }
