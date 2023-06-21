@@ -17,13 +17,17 @@ export interface IPokemon {
 export interface PokemonState {
   total: number;
 
+  page: number;
+  itemsPerPage: number;
+
   status: APIStatus;
   errors: ErrorObject[];
 }
 
 const initialState: PokemonState = {
   total: 0,
-
+  page: 1,
+  itemsPerPage: 0,
   status: APIStatus.IDLE,
   errors: [],
 };
@@ -38,6 +42,12 @@ export const pokemonSlice = createSlice({
   initialState: pokemonAdapter.getInitialState(initialState),
   reducers: {
     upsertPokemon: pokemonAdapter.upsertOne,
+    setPage: (state, { payload }) => {
+      state.page = payload;
+    },
+    setItemsPerPage: (state, { payload }) => {
+      state.itemsPerPage = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getPokemonDataAsync.pending, pendingCase());
@@ -52,6 +62,6 @@ export const pokemonSlice = createSlice({
   },
 });
 
-export const { upsertPokemon } = pokemonSlice.actions;
+export const { upsertPokemon, setPage, setItemsPerPage } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;

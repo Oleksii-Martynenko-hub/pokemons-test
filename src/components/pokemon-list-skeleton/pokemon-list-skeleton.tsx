@@ -20,7 +20,7 @@ export function PokemonListSkeleton() {
         </Grid>
 
         {[...Array(8).keys()].map((i) => (
-          <Grid item xs={'auto'}>
+          <Grid key={i} item xs={'auto'}>
             <Skeleton
               variant="rounded"
               sx={{
@@ -34,7 +34,7 @@ export function PokemonListSkeleton() {
 
       <Grid container spacing={2} justifyContent="center">
         {[...Array(50).keys()].map((i) => (
-          <Grid item xs={'auto'}>
+          <Grid key={i} item xs={'auto'}>
             <Skeleton
               variant="rounded"
               sx={{
@@ -63,7 +63,7 @@ export function PokemonListSkeleton() {
         </Grid>
 
         {[...Array(8).keys()].map((i) => (
-          <Grid item xs={'auto'}>
+          <Grid key={i} item xs={'auto'}>
             <Skeleton
               variant="rounded"
               sx={{

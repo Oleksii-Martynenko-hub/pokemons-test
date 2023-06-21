@@ -1,12 +1,17 @@
-import { memo } from 'react';
-import { useSelector } from 'react-redux';
+import { memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Typography } from '@mui/material';
 
-import { IPokemon } from 'src/store/pokemon/reducers';
+import { AppDispatch } from 'src/store';
+import { IPokemon, setItemsPerPage, setPage } from 'src/store/pokemon/reducers';
 import {
   selectPokemonSelectedTypes,
   selectPokemonTypesData,
 } from 'src/store/pokemon-type/selectors';
+import {
+  selectPokemonItemsPerPage,
+  selectPokemonPage,
+} from 'src/store/pokemon/selectors';
 
 import usePagination from 'src/components/hooks/use-pagination';
 import { useFilterByTypes } from 'src/components/hooks/use-filter-by-types';
@@ -18,8 +23,12 @@ export interface PokemonListProps {
 }
 
 export function PokemonList({ pokemons }: PokemonListProps) {
+  const dispatch = useDispatch<AppDispatch>();
+
   const types = useSelector(selectPokemonTypesData);
   const selectedTypes = useSelector(selectPokemonSelectedTypes);
+  const storedPage = useSelector(selectPokemonPage);
+  const storedItemsPerPage = useSelector(selectPokemonItemsPerPage);
 
   const filteredPokemonsByTypes = useFilterByTypes(
     pokemons,
@@ -28,8 +37,20 @@ export function PokemonList({ pokemons }: PokemonListProps) {
   );
 
   const { dataSlice: pokemonSlice, ...paginationProps } = usePagination(
-    filteredPokemonsByTypes
+    filteredPokemonsByTypes,
+    storedPage,
+    storedItemsPerPage
   );
+
+  const { page, itemsPerPage } = paginationProps;
+
+  useEffect(() => {
+    dispatch(setPage(page));
+  }, [page]);
+
+  useEffect(() => {
+    dispatch(setItemsPerPage(itemsPerPage));
+  }, [itemsPerPage]);
 
   return (
     <>

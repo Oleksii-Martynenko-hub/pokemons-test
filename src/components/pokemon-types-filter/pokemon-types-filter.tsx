@@ -35,7 +35,7 @@ export function PokemonTypesFilter() {
       >
         {status === APIStatus.PENDING
           ? [...Array(20).keys()].map((i) => (
-              <Grid item xs="auto">
+              <Grid key={i} item xs="auto">
                 <Skeleton
                   variant="rounded"
                   sx={{
