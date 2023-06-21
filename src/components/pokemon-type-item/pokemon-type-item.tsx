@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Chip, CircularProgress, Grid } from '@mui/material';
+import { Chip, CircularProgress, Grid, darken } from '@mui/material';
 
 import { APIStatus } from 'src/api/MainApi';
 
@@ -18,6 +18,7 @@ export function PokemonTypeItem({ id }: PokemonTypeItemProps) {
   const type = useSelector(selectPokemonTypeById(id));
 
   const name = type?.name;
+  const color = type?.color;
   const isSelected = type?.isSelected;
   const isPending = type?.status === APIStatus.PENDING;
 
@@ -46,7 +47,7 @@ export function PokemonTypeItem({ id }: PokemonTypeItemProps) {
               <CircularProgress
                 size={16}
                 sx={{
-                  color: 'rgb(252, 202, 28)',
+                  color: 'rgb(255, 255, 255)',
                   position: 'absolute',
                   top: '8px',
                   right: '8px',
@@ -56,15 +57,21 @@ export function PokemonTypeItem({ id }: PokemonTypeItemProps) {
           </>
         }
         sx={{
-          backgroundColor: isSelected ? 'rgb(28, 62, 119)' : 'rgb(55, 97, 168)',
-          color: isPending ? 'rgba(252, 202, 28, 0.2)' : 'rgb(252, 202, 28)',
+          backgroundColor: color,
+          color: isPending
+            ? 'rgba(255, 255, 255, 0.2)'
+            : isSelected
+            ? '#222'
+            : '#fff',
           fontWeight: 'bold',
+          textTransform: 'capitalize',
+          outline: isSelected
+            ? '1px solid ' + darken(color || '#7b7b7b', 0.4)
+            : 'none',
 
           '&:hover': {
-            outline: '2px solid rgb(252, 202, 28)',
-            backgroundColor: isSelected
-              ? 'rgb(28, 62, 119)'
-              : 'rgb(55, 97, 168)',
+            outline: '2px solid ' + darken(color || '#7b7b7b', 0.2),
+            backgroundColor: color,
           },
         }}
         clickable

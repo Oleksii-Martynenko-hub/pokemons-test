@@ -4,7 +4,7 @@ import { APIStatus } from 'src/api/MainApi';
 import { getExceptionPayload } from 'src/api/ErrorHandler';
 
 import { ThunkExtra } from 'src/store';
-import { IPokemonType } from './reducers';
+import { IPokemonType, typeColorMap } from './reducers';
 
 export const getPokemonTypesAsync = createAsyncThunk<
   IPokemonType[],
@@ -20,6 +20,7 @@ export const getPokemonTypesAsync = createAsyncThunk<
         id: url.split('/').at(-2) as string,
         name,
         status: APIStatus.IDLE,
+        color: typeColorMap[name],
         details: null,
       }));
 
@@ -48,6 +49,7 @@ export const getPokemonTypeDetailsByIdAsync = createAsyncThunk<
         id: id.toString(),
         name,
         status: APIStatus.FULFILLED,
+        color: typeColorMap[name],
         details: {
           pokemonList,
         },
