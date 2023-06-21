@@ -1,7 +1,6 @@
 import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid } from '@mui/material';
-import styled from 'styled-components';
+import { Grid, Skeleton } from '@mui/material';
 
 import { APIStatus } from 'src/api/MainApi';
 
@@ -13,12 +12,7 @@ import {
 } from 'src/store/pokemon-type/selectors';
 import PokemonTypeItem from '../pokemon-type-item/pokemon-type-item';
 
-/* eslint-disable-next-line */
-export interface PokemonTypesFilterProps {}
-
-const StyledPokemonTypesFilter = styled.div``;
-
-export function PokemonTypesFilter(props: PokemonTypesFilterProps) {
+export function PokemonTypesFilter() {
   const dispatch = useDispatch<AppDispatch>();
   const typesData = useSelector(selectPokemonTypesData);
   const status = useSelector(selectPokemonTypesStatus);
@@ -30,24 +24,31 @@ export function PokemonTypesFilter(props: PokemonTypesFilterProps) {
   }, []);
 
   return (
-    <StyledPokemonTypesFilter>
-      {status === APIStatus.PENDING ? (
-        <p>Loading...</p>
-      ) : (
-        <Grid
-          container
-          spacing={1}
-          marginBottom={{ xs: 2, md: 4 }}
-          justifyContent="center"
-          maxWidth={740}
-          marginX="auto"
-        >
-          {typesData?.map(({ id }) => (
-            <PokemonTypeItem key={id} id={id} />
-          ))}
-        </Grid>
-      )}
-    </StyledPokemonTypesFilter>
+    <div>
+      <Grid
+        container
+        spacing={1}
+        marginBottom={{ xs: 2, md: 4 }}
+        justifyContent="center"
+        maxWidth={740}
+        marginX="auto"
+      >
+        {status === APIStatus.PENDING
+          ? [...Array(20).keys()].map((i) => (
+              <Grid item xs="auto">
+                <Skeleton
+                  variant="rounded"
+                  sx={{
+                    width: `${Math.round(Math.random() * 35) + 45}px`,
+                    height: '32px',
+                    borderRadius: '32px',
+                  }}
+                />
+              </Grid>
+            ))
+          : typesData?.map(({ id }) => <PokemonTypeItem key={id} id={id} />)}
+      </Grid>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { Divider, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { IPokemon } from 'src/store/pokemon/reducers';
 import {
@@ -33,8 +33,6 @@ export function PokemonList({ pokemons }: PokemonListProps) {
 
   return (
     <>
-      <Divider sx={{ mx: 2 }} />
-
       <Pagination {...paginationProps} />
 
       <Grid container spacing={2} justifyContent="center">
