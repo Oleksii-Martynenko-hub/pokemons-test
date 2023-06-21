@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { Card, Grid, Tooltip, Typography } from '@mui/material';
 
 import { ERoutes } from 'src/app/app';
+import pokemonPlaceholder from 'src/assets/images/pokemon-placeholder.svg';
+
+
 
 export interface PokemonItemProps {
   name: string;
@@ -39,11 +42,7 @@ export function PokemonItem({ name, imageUrl }: PokemonItemProps) {
         <Card sx={{ width: '100%' }}>
           <ImageWrapper>
             <CardImage
-              src={
-                isImageRejected
-                  ? 'src/assets/images/pokemon-placeholder.svg'
-                  : imageUrl
-              }
+              src={isImageRejected ? pokemonPlaceholder : imageUrl}
               alt={name}
               width={isImageRejected ? 40 : 96}
               height={isImageRejected ? 40 : 96}
